@@ -1,3 +1,4 @@
+name: lucipedia-prod
 services:
   app:
     build:
