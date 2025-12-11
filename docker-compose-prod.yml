@@ -14,7 +14,7 @@ services:
       SENTRY_DSN: ${SENTRY_DSN:-}
       ENV: ${ENV}
     networks:
-      - traefik-proxy
+      - public-apps
       - internal
     volumes:
       - data:/app/db-data
@@ -27,6 +27,6 @@ volumes:
   data:
 
 networks:
-  traefik-proxy:
-    external: true # hook into traefik-proxy network created by traefik
+  public-apps:
+    external: true # hook into public-apps network created by traefik
   internal:
