@@ -1,1 +1,32 @@
-docker-compose-prod.yml
+name: lucipedia-prod
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    pull_policy: build # Necessary to trigger rebuild on docker-compose up via Portainer
+    restart: unless-stopped
+    environment:
+      LOG_LEVEL: ${LOG_LEVEL}
+      LLM_ENDPOINT: ${LLM_ENDPOINT}
+      LLM_API_KEY: ${LLM_API_KEY}
+      LLM_MODELS: ${LLM_MODELS}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+      ENV: ${ENV}
+    networks:
+      - public-apps
+      - internal
+    volumes:
+      - data:/app/db-data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.lucipedia.rule: Host(`lucipedia.lenn.rocks`) # router name and subdomain
+      traefik.http.services.lucipedia.loadbalancer.server.port: 8080 # port that is fowarded to internally by treafik
+
+volumes:
+  data:
+
+networks:
+  public-apps:
+    external: true # hook into public-apps network created by traefik
+  internal:
