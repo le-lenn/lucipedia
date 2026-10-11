@@ -8,6 +8,8 @@ Whenever you open a page, Lucipedia first checks whether the article already exi
 
 ## Deployment
 
+On Pennard-1, enable the shared auto-deployer with `systemctl enable --now compose-deploy@lucipedia.timer`.
+
 The project is deployable as a whole via various docker compose configurations.
 
 - Use `docker-compose-dev.yml` for local testing.
